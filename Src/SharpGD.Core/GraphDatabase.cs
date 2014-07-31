@@ -15,5 +15,10 @@
         private GraphDatabase()
         {
         }
+
+        public Node Node()
+        {
+            return new Node();
+        }
     }
 }

@@ -13,5 +13,21 @@
 
             Assert.IsNotNull(result);
         }
+
+        [TestMethod]
+        public void CreateNode()
+        {
+            var result = GraphDatabase.Create().Node();
+
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void CreateNodeWithProperty()
+        {
+            var result = GraphDatabase.Create().Node().Property("Name", "Adam");
+
+            Assert.AreEqual("Adam", result.Property("Name"));
+        }
     }
 }
