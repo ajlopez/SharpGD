@@ -29,5 +29,14 @@
 
             Assert.AreEqual("Adam", result.Property("Name"));
         }
+
+        [TestMethod]
+        public void CreateNodeWithLabel()
+        {
+            var result = GraphDatabase.Create().Node().Label("Human").Property("Name", "Adam");
+
+            Assert.IsTrue(result.HasLabel("Human"));
+            Assert.IsFalse(result.HasLabel("Dog"));
+        }
     }
 }
