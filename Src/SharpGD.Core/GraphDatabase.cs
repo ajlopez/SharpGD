@@ -7,6 +7,8 @@
 
     public class GraphDatabase
     {
+        private IList<Node> nodes = new List<Node>();
+
         public static GraphDatabase Create()
         {
             return new GraphDatabase();
@@ -18,7 +20,14 @@
 
         public Node Node()
         {
-            return new Node();
+            var node = new Node();
+            nodes.Add(node);
+            return node;
+        }
+
+        public IEnumerable<Node> Nodes()
+        {
+            return this.nodes;
         }
     }
 }

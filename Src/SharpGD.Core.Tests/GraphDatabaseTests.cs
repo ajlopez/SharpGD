@@ -1,6 +1,8 @@
 ﻿namespace SharpGD.Core.Tests
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -37,6 +39,33 @@
 
             Assert.IsTrue(result.HasLabel("Human"));
             Assert.IsFalse(result.HasLabel("Dog"));
+        }
+
+        [TestMethod]
+        public void CreateNodeWithLabels()
+        {
+            var result = GraphDatabase.Create().Node().Label("Human").Property("Name", "Adam").Label("Paradise");
+
+            Assert.IsTrue(result.HasLabel("Human"));
+            Assert.IsTrue(result.HasLabel("Paradise"));
+            Assert.IsFalse(result.HasLabel("Dog"));
+        }
+
+        [TestMethod]
+        public void RetrieveNodes()
+        {
+            var gdb = GraphDatabase.Create();
+
+            gdb.Node().Property("Name", "Adam");
+            gdb.Node().Property("Name", "Eve");
+
+            var result = gdb.Nodes();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.Count());
+
+            Assert.IsTrue(result.Any(p => p.Property("Name").Equals("Adam")));
+            Assert.IsTrue(result.Any(p => p.Property("Name").Equals("Eve")));
         }
     }
 }
