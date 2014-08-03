@@ -56,6 +56,21 @@
         {
             var gdb = GraphDatabase.Create();
 
+            gdb.Node().Label("Human").Property("Name", "Adam");
+            gdb.Node().Label("Dog").Property("Name", "Fido");
+
+            var result = gdb.Match("Dog").Nodes().ToArray();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Count());
+            Assert.AreEqual("Fido", result[0].Property("Name"));
+        }
+
+        [TestMethod]
+        public void MatchByLabel()
+        {
+            var gdb = GraphDatabase.Create();
+
             gdb.Node().Property("Name", "Adam");
             gdb.Node().Property("Name", "Eve");
 

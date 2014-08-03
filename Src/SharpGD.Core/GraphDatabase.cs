@@ -29,5 +29,10 @@
         {
             return this.nodes;
         }
+
+        public Match Match(string label)
+        {
+            return new Match(this, label);
+        }
     }
 }
