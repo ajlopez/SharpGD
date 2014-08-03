@@ -9,19 +9,19 @@
     {
         private IList<Node> nodes = new List<Node>();
 
+        private GraphDatabase()
+        {
+        }
+
         public static GraphDatabase Create()
         {
             return new GraphDatabase();
         }
 
-        private GraphDatabase()
-        {
-        }
-
         public Node Node()
         {
             var node = new Node();
-            nodes.Add(node);
+            this.nodes.Add(node);
             return node;
         }
 

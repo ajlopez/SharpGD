@@ -5,6 +5,7 @@ obj
 *.pidb
 *.userprefs
 *.gpState
+*.Cache
 packages
 *.nupkg
 output
