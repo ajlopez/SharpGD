@@ -71,16 +71,15 @@
         {
             var gdb = GraphDatabase.Create();
 
-            gdb.Node().Property("Name", "Adam");
-            gdb.Node().Property("Name", "Eve");
+            gdb.Node().Label("Human").Property("Name", "Adam");
+            gdb.Node().Label("Dog").Property("Name", "Fido");
 
-            var result = gdb.Nodes();
+            var result = gdb.Match("Human").Nodes();
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Count());
+            Assert.AreEqual(1, result.Count());
 
-            Assert.IsTrue(result.Any(p => p.Property("Name").Equals("Adam")));
-            Assert.IsTrue(result.Any(p => p.Property("Name").Equals("Eve")));
+            Assert.AreEqual("Adam", result.First().Property("Name"));
         }
     }
 }
