@@ -34,5 +34,10 @@
         {
             return new Match(this, label);
         }
+
+        public Match Match()
+        {
+            return new Match(this, null);
+        }
     }
 }
