@@ -11,10 +11,15 @@
         private string label;
         private IList<Func<Node, bool>> filters = new List<Func<Node, bool>>();
 
-        internal Match(GraphDatabase gd, string label)
+        internal Match(GraphDatabase gd)
         {
             this.gd = gd;
+        }
+
+        public Match Label(string label)
+        {
             this.label = label;
+            return this;
         }
 
         public IEnumerable<Node> Nodes()

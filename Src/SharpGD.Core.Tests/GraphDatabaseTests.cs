@@ -59,7 +59,7 @@
             gdb.Node().Label("Human").Property("Name", "Adam");
             gdb.Node().Label("Dog").Property("Name", "Fido");
 
-            var result = gdb.Match("Dog").Nodes().ToArray();
+            var result = gdb.Match().Label("Dog").Nodes().ToArray();
 
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Count());
@@ -74,7 +74,7 @@
             gdb.Node().Label("Human").Property("Name", "Adam");
             gdb.Node().Label("Dog").Property("Name", "Fido");
 
-            var result = gdb.Match("Human").Nodes();
+            var result = gdb.Match().Label("Human").Nodes();
 
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Count());

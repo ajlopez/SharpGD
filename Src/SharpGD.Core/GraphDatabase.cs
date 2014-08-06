@@ -30,14 +30,9 @@
             return this.nodes;
         }
 
-        public Match Match(string label)
-        {
-            return new Match(this, label);
-        }
-
         public Match Match()
         {
-            return new Match(this, null);
+            return new Match(this);
         }
     }
 }
