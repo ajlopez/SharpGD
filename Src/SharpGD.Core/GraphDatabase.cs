@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
 
-    public class GraphDatabase
+    public class GraphDatabase : INodesProvider
     {
         private IList<Node> nodes = new List<Node>();
 

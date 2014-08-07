@@ -5,15 +5,15 @@
     using System.Linq;
     using System.Text;
 
-    public class Match
+    public class Match : INodesProvider
     {
-        private GraphDatabase gd;
+        private INodesProvider nodes;
         private string label;
         private IList<Func<Node, bool>> filters = new List<Func<Node, bool>>();
 
-        internal Match(GraphDatabase gd)
+        internal Match(INodesProvider nodes)
         {
-            this.gd = gd;
+            this.nodes = nodes;
         }
 
         public Match Label(string label)
@@ -24,7 +24,7 @@
 
         public IEnumerable<Node> Nodes()
         {
-            foreach (var node in this.gd.Nodes())
+            foreach (var node in this.nodes.Nodes())
                 if (this.label == null || node.HasLabel(this.label))
                 {
                     bool filtered = false;

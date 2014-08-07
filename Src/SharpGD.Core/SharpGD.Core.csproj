@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GraphDatabase.cs" />
+    <Compile Include="INodesProvider.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
