@@ -8,8 +8,6 @@
     public class Match : INodesProvider
     {
         private INodesProvider nodes;
-        private string label;
-        private IList<Func<Node, bool>> filters = new List<Func<Node, bool>>();
 
         internal Match(INodesProvider nodes)
         {
@@ -18,32 +16,55 @@
 
         public Match Label(string label)
         {
-            this.label = label;
-            return this;
+            return new LabelMatch(this, label);
         }
 
-        public IEnumerable<Node> Nodes()
+        public virtual IEnumerable<Node> Nodes()
         {
-            foreach (var node in this.nodes.Nodes())
-                if (this.label == null || node.HasLabel(this.label))
-                {
-                    bool filtered = false;
-                    foreach (var filter in this.filters)
-                        if (!filter(node))
-                        {
-                            filtered = true;
-                            break;
-                        }
-
-                    if (!filtered)
-                        yield return node;
-                }
+            return this.nodes.Nodes();
         }
 
         public Match Property(string name, object value)
         {
-            this.filters.Add(node => value.Equals(node.Property(name)));
-            return this;
+            return new PropertyMatch(this, name, value);
+        }
+
+        private class LabelMatch : Match
+        {
+            private string label;
+
+            internal LabelMatch(INodesProvider nodes, string label)
+                : base(nodes)
+            {
+                this.label = label;
+            }
+
+            public override IEnumerable<Node> Nodes()
+            {
+                foreach (var node in base.Nodes())
+                    if (node.HasLabel(this.label))
+                        yield return node;
+            }
+        }
+
+        private class PropertyMatch : Match
+        {
+            private string name;
+            private object value;
+
+            internal PropertyMatch(INodesProvider nodes, string name, object value)
+                : base(nodes)
+            {
+                this.name = name;
+                this.value = value;
+            }
+
+            public override IEnumerable<Node> Nodes()
+            {
+                foreach (var node in base.Nodes())
+                    if (this.value.Equals(node.Property(this.name)))
+                        yield return node;
+            }
         }
     }
 }
