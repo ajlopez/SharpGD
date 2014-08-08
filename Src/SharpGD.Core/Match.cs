@@ -29,6 +29,11 @@
             return new PropertyMatch(this, name, value);
         }
 
+        public virtual Match OrProperty(string name, object value)
+        {
+            throw new NotImplementedException();
+        }
+
         private class LabelMatch : Match
         {
             private string label;
@@ -51,6 +56,8 @@
         {
             private string name;
             private object value;
+            private IList<string> names = new List<string>();
+            private IList<object> values = new List<object>();
 
             internal PropertyMatch(INodesProvider nodes, string name, object value)
                 : base(nodes)
@@ -62,8 +69,24 @@
             public override IEnumerable<Node> Nodes()
             {
                 foreach (var node in base.Nodes())
+                {
                     if (this.value.Equals(node.Property(this.name)))
                         yield return node;
+
+                    for (int k = 0; k < this.names.Count; k++)
+                        if (this.values[k].Equals(node.Property(this.names[k])))
+                        {
+                            yield return node;
+                            break;
+                        }
+                }
+            }
+
+            public override Match OrProperty(string name, object value)
+            {
+                this.names.Add(name);
+                this.values.Add(value);
+                return this;
             }
         }
     }

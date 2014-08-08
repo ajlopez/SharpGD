@@ -114,5 +114,25 @@
             Assert.AreEqual("Adam", result.First().Property("Name"));
             Assert.AreEqual(800, result.First().Property("Age"));
         }
+
+        [TestMethod]
+        public void MatchByOrPropertyValues()
+        {
+            var gdb = GraphDatabase.Create();
+
+            gdb.Node().Label("Human").Property("Name", "Adam").Property("Age", 800);
+            gdb.Node().Label("Human").Property("Name", "Eve").Property("Age", 600);
+
+            var result = gdb.Match().Property("Name", "Adam").OrProperty("Age", 600).Nodes();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.Count());
+
+            Assert.AreEqual("Adam", result.First().Property("Name"));
+            Assert.AreEqual(800, result.First().Property("Age"));
+
+            Assert.AreEqual("Eve", result.Skip(1).First().Property("Name"));
+            Assert.AreEqual(600, result.Skip(1).First().Property("Age"));
+        }
     }
 }
