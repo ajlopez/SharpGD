@@ -10,6 +10,7 @@
         private IList<string> labels = new List<string>();
         private IDictionary<string, object> properties = new Dictionary<string, object>();
         private IDictionary<string, IList<Node>> relations = new Dictionary<string, IList<Node>>();
+        private IDictionary<string, IList<Node>> related = new Dictionary<string, IList<Node>>();
 
         internal Node()
         {
@@ -43,12 +44,26 @@
                 this.relations[name] = new List<Node>();
 
             this.relations[name].Add(node);
+            node.Related(name, this);
             return this;
         }
 
         public IEnumerable<Node> Relation(string name)
         {
             return this.relations[name];
+        }
+
+        public IEnumerable<Node> Related(string name)
+        {
+            return this.related[name];
+        }
+
+        internal void Related(string name, Node node)
+        {
+            if (!this.related.ContainsKey(name))
+                this.related[name] = new List<Node>();
+
+            this.related[name].Add(node);
         }
     }
 }
