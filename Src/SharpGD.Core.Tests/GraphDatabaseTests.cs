@@ -152,5 +152,26 @@
 
             Assert.AreSame(eve, result.First());
         }
+
+        [TestMethod]
+        public void ManyNodesInRelation()
+        {
+            var gdb = GraphDatabase.Create();
+
+            var adam = gdb.Node().Label("Human").Property("Name", "Adam").Property("Age", 800);
+            var abel = gdb.Node().Label("Human").Property("Name", "Abel").Property("Age", 500);
+            var caine = gdb.Node().Label("Human").Property("Name", "Caine").Property("Age", 500);
+
+            adam.Relation("Child", abel);
+            adam.Relation("Child", caine);
+
+            var result = adam.Relation("Child");
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.Count());
+
+            Assert.AreSame(abel, result.First());
+            Assert.AreSame(caine, result.Skip(1).First());
+        }
     }
 }
