@@ -154,6 +154,24 @@
         }
 
         [TestMethod]
+        public void RelationInMatch()
+        {
+            var gdb = GraphDatabase.Create();
+
+            var adam = gdb.Node().Label("Human").Property("Name", "Adam").Property("Age", 800);
+            var eve = gdb.Node().Label("Human").Property("Name", "Eve").Property("Age", 600);
+
+            adam.Relation("Spouse", eve);
+
+            var result = gdb.Match().Relation("Spouse").Nodes();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Count());
+
+            Assert.AreSame(eve, result.First());
+        }
+
+        [TestMethod]
         public void ManyNodesInRelation()
         {
             var gdb = GraphDatabase.Create();

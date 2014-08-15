@@ -50,6 +50,9 @@
 
         public IEnumerable<Node> Relation(string name)
         {
+            if (!this.relations.ContainsKey(name))
+                return new Node[0];
+
             return this.relations[name];
         }
 

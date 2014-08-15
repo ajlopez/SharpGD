@@ -29,6 +29,11 @@
             return new PropertyMatch(this, name, value);
         }
 
+        public Match Relation(string name)
+        {
+            return new RelationMatch(this, name);
+        }
+
         public virtual Match OrProperty(string name, object value)
         {
             throw new NotImplementedException();
@@ -87,6 +92,33 @@
                 this.names.Add(name);
                 this.values.Add(value);
                 return this;
+            }
+        }
+
+        private class RelationMatch : Match
+        {
+            private string name;
+
+            internal RelationMatch(INodesProvider nodes, string name)
+                : base(nodes)
+            {
+                this.name = name;
+            }
+
+            public override IEnumerable<Node> Nodes()
+            {
+                IList<Node> retrieved = new List<Node>();
+
+                foreach (var node in base.Nodes())
+                    foreach (var rnode in node.Relation(this.name))
+                    {
+                        if (retrieved.Contains(rnode))
+                            continue;
+
+                        retrieved.Add(rnode);
+
+                        yield return rnode;
+                    }
             }
         }
     }
