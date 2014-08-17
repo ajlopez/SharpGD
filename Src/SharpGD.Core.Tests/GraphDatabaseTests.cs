@@ -218,5 +218,25 @@
 
             Assert.AreSame(adam, result2.First());
         }
+
+        [TestMethod]
+        public void RelatedInMatch()
+        {
+            var gdb = GraphDatabase.Create();
+
+            var adam = gdb.Node().Label("Human").Property("Name", "Adam").Property("Age", 800);
+            var abel = gdb.Node().Label("Human").Property("Name", "Abel").Property("Age", 500);
+            var caine = gdb.Node().Label("Human").Property("Name", "Caine").Property("Age", 500);
+
+            adam.Relation("Child", abel);
+            adam.Relation("Child", caine);
+
+            var result = gdb.Match().Related("Child").Nodes();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Count());
+
+            Assert.AreSame(adam, result.First());
+        }
     }
 }

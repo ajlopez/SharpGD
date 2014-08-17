@@ -35,6 +35,11 @@
             return new RelationMatch(this, name);
         }
 
+        public Match Related(string name)
+        {
+            return new RelatedMatch(this, name);
+        }
+
         public virtual Match OrProperty(string name, object value)
         {
             throw new NotImplementedException();

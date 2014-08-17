@@ -58,6 +58,9 @@
 
         public IEnumerable<Node> Related(string name)
         {
+            if (!this.related.ContainsKey(name))
+                return new Node[0];
+
             return this.related[name];
         }
 
