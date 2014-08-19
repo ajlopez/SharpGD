@@ -193,6 +193,26 @@
         }
 
         [TestMethod]
+        public void RepeatedNodeInRelation()
+        {
+            var gdb = GraphDatabase.Create();
+
+            var adam = gdb.Node().Label("Human").Property("Name", "Adam").Property("Age", 800);
+            var abel = gdb.Node().Label("Human").Property("Name", "Abel").Property("Age", 500);
+            var caine = gdb.Node().Label("Human").Property("Name", "Caine").Property("Age", 500);
+
+            abel.Relation("Parent", adam);
+            caine.Relation("Parent", adam);
+
+            var result = gdb.Match().Relation("Parent").Nodes();
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Count());
+
+            Assert.AreSame(adam, result.First());
+        }
+
+        [TestMethod]
         public void RelatedInNode()
         {
             var gdb = GraphDatabase.Create();
