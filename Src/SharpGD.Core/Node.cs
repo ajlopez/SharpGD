@@ -38,6 +38,11 @@
             return this.properties[name];
         }
 
+        public IList<string> Properties()
+        {
+            return this.properties.Keys.ToList();
+        }
+
         public Node Relation(string name, Node node)
         {
             if (!this.relations.ContainsKey(name))

@@ -22,6 +22,11 @@
             var result = GraphDatabase.Create().Node();
 
             Assert.IsNotNull(result);
+
+            var properties = result.Properties();
+
+            Assert.IsNotNull(properties);
+            Assert.AreEqual(0, properties.Count);
         }
 
         [TestMethod]
@@ -30,6 +35,12 @@
             var result = GraphDatabase.Create().Node().Property("Name", "Adam");
 
             Assert.AreEqual("Adam", result.Property("Name"));
+
+            var properties = result.Properties();
+
+            Assert.IsNotNull(properties);
+            Assert.AreEqual(1, properties.Count);
+            Assert.AreEqual("Name", properties[0]);
         }
 
         [TestMethod]
